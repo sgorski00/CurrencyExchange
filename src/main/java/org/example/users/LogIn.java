@@ -1,15 +1,9 @@
 package org.example.users;
 
 import org.example.Input;
-import org.example.menu.MainMenu;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class LogIn{
+public class LogIn extends Encryption{
     private static final Input scanner = new Input();
-    private MainMenu menu = new MainMenu();
     public void logIn() {
         boolean isValid = false;
         String login;
@@ -23,7 +17,7 @@ public class LogIn{
 
                 User loggedUser = ListOfUsers.listOfUsers().stream()
                         .filter(user -> user.login().equals(finalLogin))
-                        .filter(user -> user.password().equals(finalPassword))
+                        .filter(user -> user.encryptedPassword().equals(encrypt(finalPassword)))
                         .toList().get(0);
 
                 System.out.println("You are logged as " + loggedUser.login()+"\n");
@@ -32,17 +26,6 @@ public class LogIn{
                 System.err.println("Wrong login or password");
                 scanner.pressEnterToContinue();
             }
-//            for (User userName:listOfUsers) {
-//                if(login.equals(userName.login())){
-//                    System.out.println("Enter password:");
-//                    password = scanner.scannerText();
-//                    if(password.equals(userName.password())){
-//                        System.out.printf("%s %s!%n", "You are in", userName.login());
-//                        System.out.println("====================");
-//                        isValid = true;
-//                    }
-//                }else if(listOfUsers.contains())
-//            }
         }
     }
 
