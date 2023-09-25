@@ -7,14 +7,8 @@ public class ListOfUsers {
     private static List<User> listOfUsers = new ArrayList<>();
 
     static {
-        User sgorski00 = new User("sgorski00", "12345");
-        User latuszka = new User("latuszka", "Latka@@@");
-        User daga33 = new User("daga33", "qwertyuiop");
-        User yomenik = new User("yomenik", "zaq1@WSX");
-        listOfUsers.add(sgorski00);
-        listOfUsers.add(daga33);
-        listOfUsers.add(latuszka);
-        listOfUsers.add(yomenik);
+        User sgorski00 = new User("sgorski00", "Koksu1@3456");
+        listOfUsers().add(sgorski00);
     }
 
     public static List<User> listOfUsers() {
