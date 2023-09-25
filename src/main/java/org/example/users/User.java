@@ -1,8 +1,7 @@
 package org.example.users;
 
-import java.security.NoSuchAlgorithmException;
+public class User extends Encryption {
 
-public class User extends Encryption{
     private String login;
     private String encryptedPassword;
 

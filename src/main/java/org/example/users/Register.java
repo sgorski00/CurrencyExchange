@@ -4,9 +4,7 @@ import org.example.Input;
 
 public class Register extends Encryption{
     private final Input scanner = new Input();
-    String login;
-    String password;
-    String repeatPassword;
+    private String login;
     long count = 0;
 
     public void createUser(){
@@ -24,15 +22,20 @@ public class Register extends Encryption{
                 do {
                     isLoginUnique = true;
                     System.out.println("Enter password:");
-                    password = scanner.scannerText();
+                    String password = scanner.scannerText();
                     System.out.println("Repeat password:");
-                    repeatPassword = scanner.scannerText();
-                    if (password.equals(repeatPassword)) {
+                    String repeatPassword = scanner.scannerText();
+                    if (password.equals(repeatPassword) && Validation.isValidPassword(password)) {
                         System.out.println("User created");
                         ListOfUsers.listOfUsers().add(new User(login, password));
                         doesPasswordMatch = true;
+                        scanner.pressEnterToContinue();
                     } else {
-                        System.out.println("Wrong password");
+                        if(!(password.equals(repeatPassword))) {
+                            System.err.println("Wrong password");
+                        }else{
+                            System.err.println("Password does not meet the reqiurements.");
+                        }
                     }
                 }while(!doesPasswordMatch);
             }
@@ -56,15 +59,19 @@ public class Register extends Encryption{
                     if (thisUser.encryptedPassword().equals(encrypt(oldPassword))) {
                         System.out.println("Enter new password:");
                         String newPassword = scanner.scannerText();
-                        thisUser.setEncryptedPassword(encrypt(newPassword));
-                        isPasswordChanged = true;
-                        System.out.println("Password changed");
+                        if (Validation.isValidPassword(newPassword)) {
+                            thisUser.setEncryptedPassword(encrypt(newPassword));
+                            isPasswordChanged = true;
+                            System.out.println("Password changed");
+                        }else{
+                            System.err.println("Password does not meet the reqiurements.");
+                        }
                     } else {
-                        System.out.println("Wrong password");
+                        System.err.println("Wrong password");
                     }
                 }while(!isPasswordChanged);
             } catch (IndexOutOfBoundsException e) {
-                System.out.println("User doesn't exists");
+                System.err.println("User doesn't exists");
             }
         }while(!isLoginCorrect);
     }
