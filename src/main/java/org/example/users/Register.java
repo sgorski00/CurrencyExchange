@@ -2,7 +2,7 @@ package org.example.users;
 
 import org.example.Input;
 
-public class Register {
+public class Register extends Encryption{
     private final Input scanner = new Input();
     String login;
     String password;
@@ -53,10 +53,10 @@ public class Register {
                 do {
                     System.out.println("Enter old password:");
                     String oldPassword = scanner.scannerText();
-                    if (thisUser.password().equals(oldPassword)) {
+                    if (thisUser.encryptedPassword().equals(encrypt(oldPassword))) {
                         System.out.println("Enter new password:");
                         String newPassword = scanner.scannerText();
-                        thisUser.setPassword(newPassword);
+                        thisUser.setEncryptedPassword(encrypt(newPassword));
                         isPasswordChanged = true;
                         System.out.println("Password changed");
                     } else {

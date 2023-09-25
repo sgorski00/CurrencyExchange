@@ -1,14 +1,16 @@
 package org.example.menu;
 
 import org.example.Input;
-import org.example.wallet.Operations;
 import org.example.wallet.Wallet;
+import org.example.wallet.operations.BasicOperations;
+import org.example.wallet.operations.ConvertCurrency;
 import org.javamoney.moneta.Money;
 
 import java.math.BigDecimal;
 
 public class MainMenu extends ListOfTasks {
-    private final Operations op = new Operations();
+    private final BasicOperations basic = new BasicOperations();
+    private final ConvertCurrency conversion = new ConvertCurrency();
     Wallet wallet = new Wallet();
     Input scanner = new Input();
 
@@ -26,7 +28,7 @@ public class MainMenu extends ListOfTasks {
                     System.out.println("Select the currency, in which You want to see your total account balance.");
                     wallet.printListOfCurrencies();
                     int choosedCurrency = scanner.scannerInt();
-                    op.getSumOfMoney(choosedCurrency);
+                    conversion.getSumOfMoney(choosedCurrency);
                     scanner.pressEnterToContinue();
                 }
                 case 3 -> {
@@ -35,7 +37,7 @@ public class MainMenu extends ListOfTasks {
                     System.out.println("Enter amount of money:");
                     BigDecimal amount = scanner.scannerNumber();
                     if(Wallet.listOfCurrencies().containsKey(choosedCurrency)) {
-                        doOperation(choosedCurrency, amount, op.addMoney(amount, Wallet.listOfCurrencies().get(choosedCurrency)));
+                        doOperation(choosedCurrency, amount, basic.addMoney(amount, Wallet.listOfCurrencies().get(choosedCurrency).currency()));
                     }else{
                         System.err.println("Enter correct number. That currency doesn't exists.");
                     }
@@ -47,7 +49,7 @@ public class MainMenu extends ListOfTasks {
                     System.out.println("Enter amount of money:");
                     BigDecimal amount = scanner.scannerNumber();
                     if(Wallet.listOfCurrencies().containsKey(choosedCurrency)) {
-                        doOperation(choosedCurrency, amount, op.removeMoney(amount, Wallet.listOfCurrencies().get(choosedCurrency)));
+                        doOperation(choosedCurrency, amount, basic.removeMoney(amount, Wallet.listOfCurrencies().get(choosedCurrency).currency()));
                     }else{
                         System.err.println("Enter correct number. That currency doesn't exists.");
                     }
@@ -59,9 +61,9 @@ public class MainMenu extends ListOfTasks {
                     System.out.println("Enter amount of money:");
                     BigDecimal amount = scanner.scannerNumber();
                     if (Wallet.listOfCurrencies().containsKey(choosedCurrency)) {
-                        Money temp = op.setMoney(amount, Wallet.listOfCurrencies().get(choosedCurrency));
-                        Wallet.listOfCurrencies().put(choosedCurrency, temp);
-                        System.out.printf("%s %s %s %s%n", "The amount of", Wallet.listOfCurrencies().get(choosedCurrency).getCurrency(), "has been set to", amount);
+                        Money temp = basic.setMoney(amount, Wallet.listOfCurrencies().get(choosedCurrency).currency());
+                        Wallet.listOfCurrencies().get(choosedCurrency).setCurrency(temp);
+                        System.out.printf("%s %s %s %s%n", "The amount of", Wallet.listOfCurrencies().get(choosedCurrency).currency().getCurrency(), "has been set to", amount);
                     } else {
                         System.err.println("That currency doesn't exist!");
                     }
@@ -77,7 +79,7 @@ public class MainMenu extends ListOfTasks {
                     wallet.printListOfAmmountOfCurrencies();
                     int secondCu = scanner.scannerInt();
                     if (Wallet.listOfCurrencies().containsKey(firstCu) && Wallet.listOfCurrencies().containsKey(secondCu)) {
-                        op.convertCurrency(firstCu, secondCu, amount);
+                        conversion.convertCurrency(firstCu, secondCu, amount);
                         wallet.printListOfAmmountOfCurrencies();
                     } else {
                         System.err.println("That currency doesn't exist!");
@@ -89,7 +91,7 @@ public class MainMenu extends ListOfTasks {
                     wallet.printListOfCurrencies();
                     int currency = scanner.scannerInt();
                     if (Wallet.listOfCurrencies().containsKey(currency)) {
-                        op.printExchangeRates(currency);
+                        conversion.printExchangeRates(currency);
                     } else {
                         System.err.println("That currency doesn't exist!");
                     }
@@ -109,8 +111,8 @@ public class MainMenu extends ListOfTasks {
 
     private void doOperation(int choosedCurrency, BigDecimal amount, Money operation) {
         if (amount.intValue()>0) {
-            Wallet.listOfCurrencies().put(choosedCurrency, operation);
-            System.out.printf("%s %s %s%n", "Your account balance has been changed by", amount, Wallet.listOfCurrencies().get(choosedCurrency).getCurrency());
+            Wallet.listOfCurrencies().get(choosedCurrency).setCurrency(operation);
+            System.out.printf("%s %s %s%n", "Your account balance has been changed by", amount, Wallet.listOfCurrencies().get(choosedCurrency).currency().getCurrency());
         } else {
             System.err.println("Amount of money must be larger than 0!");
         }

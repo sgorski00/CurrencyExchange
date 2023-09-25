@@ -1,12 +1,14 @@
 package org.example.users;
 
-public class User {
+import java.security.NoSuchAlgorithmException;
+
+public class User extends Encryption{
     private String login;
-    private String password;
+    private String encryptedPassword;
 
     public User(String login, String password) {
         this.login = login;
-        this.password = password;
+        this.encryptedPassword = encrypt(password);
     }
 
     public String login() {
@@ -17,11 +19,11 @@ public class User {
         this.login = login;
     }
 
-    public String password() {
-        return password;
+    public String encryptedPassword() {
+        return encryptedPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
     }
 }
