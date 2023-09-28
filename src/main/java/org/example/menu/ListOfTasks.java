@@ -6,6 +6,7 @@ import java.util.Map;
 public class ListOfTasks {
     private final Map<Integer, String> tasks = new LinkedHashMap<>();
     private final Map<Integer, String> loginTasks = new LinkedHashMap<>();
+    private final Map<Integer, String> walletOperationsTasks = new LinkedHashMap<>();
 
     void printTasks() {
         System.out.println("Enter number");
@@ -23,12 +24,26 @@ public class ListOfTasks {
         tasks.put(5, "Set money");
         tasks.put(6, "Transfer money");
         tasks.put(7, "Actual exchange rates");
+        tasks.put(8, "Edit wallet");
         tasks.put(9, "Logout");
         tasks.put(0, "Exit");
     }
 
+    private void loadWalletTasksList() {
+        walletOperationsTasks.put(1, "Add currency to the wallet");
+        walletOperationsTasks.put(2, "Remove currency from the wallet");
+    }
+
+    void printWalletMenu(){
+        System.out.println("Enter number:");
+        loadWalletTasksList();
+        for(Integer i : walletOperationsTasks.keySet()){
+            System.out.printf("%d. %s%n", i , walletOperationsTasks.get(i));
+        }
+    }
+
     void printLoginMenu(){
-        System.out.println("Enter number");
+        System.out.println("Enter number:");
         loadLoginMenuTasks();
         for(Integer i : loginTasks.keySet()){
             System.out.printf("%d. %s%n", i, loginTasks.get(i));

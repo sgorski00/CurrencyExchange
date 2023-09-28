@@ -26,7 +26,13 @@ public class Wallet {
 
     public void printNumericListOfUsersCurrencies(){
         for(int i = 1; i<=LogIn.loggedUser().wallet().currencies().size(); i++){
-            System.out.println(i + ". " + LogIn.loggedUser().wallet().currencies().get(i).currency().getCurrency());
+            if(LogIn.loggedUser().wallet().currencies().containsKey(i)) {
+                System.out.println(i + ". " + LogIn.loggedUser().wallet().currencies().get(i).currency().getCurrency());
+            }else{
+                LogIn.loggedUser().wallet().currencies().put(i, LogIn.loggedUser().wallet().currencies().get(i+1));
+                LogIn.loggedUser().wallet().currencies().remove(i+1);
+                System.out.println(i + ". " + LogIn.loggedUser().wallet().currencies().get(i).currency().getCurrency());
+            }
         }
     }
 
@@ -34,11 +40,13 @@ public class Wallet {
     public static PLN pln = new PLN(0);
     public static USD usd = new USD(0);
     public static GBP gbp = new GBP(0);
+    public static CHF chf = new CHF(0);
 
     protected static final EUR ONE_EURO = new EUR(1);
     protected static final PLN ONE_PLN = new PLN(1);
     protected static final USD ONE_USD = new USD(1);
     protected static final GBP ONE_GBP = new GBP(1);
+    protected static final CHF ONE_CHF = new CHF(1);
 
     private static final Map<Integer, Currency> listOfCurrencies = new HashMap<>();
     private static final Map<Currency, Currency> listOfOneUnitOfCurrency = new HashMap<>();
@@ -48,11 +56,13 @@ public class Wallet {
         listOfCurrencies.put(2, usd);
         listOfCurrencies.put(3, eur);
         listOfCurrencies.put(4, gbp);
+        listOfCurrencies.put(5, chf);
 
         listOfOneUnitOfCurrency.put(eur, ONE_EURO);
         listOfOneUnitOfCurrency.put(gbp, ONE_GBP);
         listOfOneUnitOfCurrency.put(pln, ONE_PLN);
         listOfOneUnitOfCurrency.put(usd, ONE_USD);
+        listOfOneUnitOfCurrency.put(chf, ONE_CHF);
     }
 
     public void printListOfCurrencies(){

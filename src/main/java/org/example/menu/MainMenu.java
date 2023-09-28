@@ -7,6 +7,7 @@ import org.example.wallet.Wallet;
 import org.example.wallet.currencies.Currency;
 import org.example.wallet.operations.BasicOperations;
 import org.example.wallet.operations.ConvertCurrency;
+import org.example.wallet.operations.OperationsOnWallet;
 import org.javamoney.moneta.Money;
 
 import java.math.BigDecimal;
@@ -101,6 +102,15 @@ public class MainMenu extends ListOfTasks {
                         System.err.println("That currency doesn't exist!");
                     }
                     scanner.pressEnterToContinue();
+                }
+                case 8 ->{
+                    printWalletMenu();
+                    int choose = scanner.scannerInt();
+                    OperationsOnWallet operations = new OperationsOnWallet();
+                    switch(choose){
+                        case 1 -> operations.addCurrencyToWallet(thisUser);
+                        case 2 -> operations.removeCurrencyFromWallet(thisUser);
+                    }
                 }
                 case 9 -> {
                     System.out.println("You are logged out");
