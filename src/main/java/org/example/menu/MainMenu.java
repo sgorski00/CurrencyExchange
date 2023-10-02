@@ -1,10 +1,9 @@
 package org.example.menu;
 
 import org.example.Input;
-import org.example.users.LogIn;
+import org.example.users.Login;
 import org.example.users.User;
 import org.example.wallet.Wallet;
-import org.example.wallet.currencies.Currency;
 import org.example.wallet.operations.BasicOperations;
 import org.example.wallet.operations.ConvertCurrency;
 import org.example.wallet.operations.OperationsOnWallet;
@@ -15,13 +14,13 @@ import java.math.BigDecimal;
 public class MainMenu extends ListOfTasks {
     private final BasicOperations basic = new BasicOperations();
     private final ConvertCurrency conversion = new ConvertCurrency();
-    Wallet wallet = new Wallet();
-    Input scanner = new Input();
+    private final Wallet wallet = new Wallet();
+    private final Input scanner = new Input();
     private User thisUser;
 
     public void print() {
         int choice;
-        thisUser = LogIn.loggedUser();
+        thisUser = Login.loggedUser();
         do {
             printTasks();
             choice = scanner.scannerInt();
@@ -110,10 +109,15 @@ public class MainMenu extends ListOfTasks {
                     switch(choose){
                         case 1 -> operations.addCurrencyToWallet(thisUser);
                         case 2 -> operations.removeCurrencyFromWallet(thisUser);
+                        default -> {
+                            System.err.println("Wrong input.");
+                            scanner.pressEnterToContinue();
+                        }
                     }
                 }
                 case 9 -> {
                     System.out.println("You are logged out");
+                    Login.setLoggedUser(null);
                     choice = 0;
                 }
                 case 0 -> {

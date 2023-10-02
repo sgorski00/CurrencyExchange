@@ -1,13 +1,13 @@
 package org.example.wallet;
 
-import org.example.users.LogIn;
+import org.example.users.Login;
 import org.example.wallet.currencies.*;
 import org.example.wallet.currencies.Currency;
 
 import java.util.*;
 
 public class Wallet {
-    Map<Integer, Currency> currencies = new HashMap<>();
+    private final Map<Integer, Currency> currencies = new HashMap<>();
     public Wallet(Currency... cur){
         for(int i = 1; i<=cur.length; i++) {
             currencies.put(i, cur[i-1]);
@@ -19,28 +19,28 @@ public class Wallet {
     }
 
     public void printListOfUsersCurrencies(){
-        LogIn.loggedUser().wallet().currencies().values().stream()
+        Login.loggedUser().wallet().currencies().values().stream()
                 .map(Currency::currency)
                 .forEach(System.out::println);
     }
 
     public void printNumericListOfUsersCurrencies(){
-        for(int i = 1; i<=LogIn.loggedUser().wallet().currencies().size(); i++){
-            if(LogIn.loggedUser().wallet().currencies().containsKey(i)) {
-                System.out.println(i + ". " + LogIn.loggedUser().wallet().currencies().get(i).currency().getCurrency());
+        for(int i = 1; i<= Login.loggedUser().wallet().currencies().size(); i++){
+            if(Login.loggedUser().wallet().currencies().containsKey(i)) {
+                System.out.println(i + ". " + Login.loggedUser().wallet().currencies().get(i).currency().getCurrency());
             }else{
-                LogIn.loggedUser().wallet().currencies().put(i, LogIn.loggedUser().wallet().currencies().get(i+1));
-                LogIn.loggedUser().wallet().currencies().remove(i+1);
-                System.out.println(i + ". " + LogIn.loggedUser().wallet().currencies().get(i).currency().getCurrency());
+                Login.loggedUser().wallet().currencies().put(i, Login.loggedUser().wallet().currencies().get(i+1));
+                Login.loggedUser().wallet().currencies().remove(i+1);
+                System.out.println(i + ". " + Login.loggedUser().wallet().currencies().get(i).currency().getCurrency());
             }
         }
     }
 
-    public static EUR eur = new EUR(0);
-    public static PLN pln = new PLN(0);
-    public static USD usd = new USD(0);
-    public static GBP gbp = new GBP(0);
-    public static CHF chf = new CHF(0);
+    protected static EUR eur = new EUR(0);
+    protected static PLN pln = new PLN(0);
+    protected static USD usd = new USD(0);
+    protected static GBP gbp = new GBP(0);
+    protected static CHF chf = new CHF(0);
 
     protected static final EUR ONE_EURO = new EUR(1);
     protected static final PLN ONE_PLN = new PLN(1);

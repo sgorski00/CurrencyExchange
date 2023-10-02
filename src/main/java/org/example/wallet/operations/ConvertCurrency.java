@@ -1,6 +1,5 @@
 package org.example.wallet.operations;
 
-import org.example.users.LogIn;
 import org.example.wallet.Wallet;
 import org.example.wallet.currencies.Currency;
 import org.javamoney.moneta.Money;
@@ -13,10 +12,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static org.example.wallet.Wallet.getListOfOneUnitOfCurrency;
-import static org.example.wallet.Wallet.listOfCurrencies;
 
 public class ConvertCurrency {
     private static Map<Integer, Currency> loggedUserWallet;

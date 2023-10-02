@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.menu.LoginMenu;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.InputMismatchException;
@@ -8,7 +10,7 @@ import java.util.Scanner;
 public class Input {
     private final Scanner scanner = new Scanner(System.in);
 
-    public String scannerText(){
+    public String scannerText() {
         return scanner.nextLine();
     }
 
@@ -40,9 +42,19 @@ public class Input {
     }
 
     public void pressEnterToContinue() {
-        System.out.println("Press Enter key to continue...");
+        System.out.println("Press enter to continue...");
         try {
             System.in.read();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void continueOrGoBack() {
+        System.out.println("Press any key to continue or press 'q' to go back");
+        try {
+            int result = System.in.read();
+            LoginMenu.setGoBack(result == 113);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

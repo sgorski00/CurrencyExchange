@@ -16,7 +16,6 @@ public class Register extends Encryption{
     private final PasswordValidation passwordValidation = new PasswordValidation();
     private final LoginValidation loginValidation = new LoginValidation();
     private String login;
-    private long count = 0;
 
     public void createUser(){
         boolean isLoginUnique = false;
@@ -24,7 +23,7 @@ public class Register extends Encryption{
         do {
             System.out.println("Enter login:");
             login = scanner.scannerText();
-            count = ListOfUsers.listOfUsers().stream()
+            long count = ListOfUsers.listOfUsers().stream()
                     .filter(user -> user.login().equals(login))
                     .count();
             if (count != 0) {
@@ -78,7 +77,6 @@ public class Register extends Encryption{
             }
             System.out.println("Choose another currency or enter '0' to end adding currencies to wallet.");
         }
-
         return new Wallet(list.toArray(new Currency[0]));
     }
 

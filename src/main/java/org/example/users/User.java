@@ -4,7 +4,7 @@ import org.example.wallet.Wallet;
 
 public class User extends Encryption {
 
-    private String login;
+    private final String login;
     private String encryptedPassword;
     private Wallet wallet;
 
@@ -16,10 +16,6 @@ public class User extends Encryption {
 
     public String login() {
         return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String encryptedPassword() {
