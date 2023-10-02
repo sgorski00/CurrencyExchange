@@ -1,6 +1,8 @@
 package org.example.users;
 
 import org.example.Input;
+import org.example.users.validation.LoginValidation;
+import org.example.users.validation.PasswordValidation;
 import org.example.wallet.Wallet;
 import org.example.wallet.currencies.Currency;
 import org.javamoney.moneta.Money;
@@ -10,9 +12,11 @@ import java.util.List;
 
 public class Register extends Encryption{
     private final Input scanner = new Input();
-    private Wallet wallet = new Wallet();
+    private final Wallet wallet = new Wallet();
+    private final PasswordValidation passwordValidation = new PasswordValidation();
+    private final LoginValidation loginValidation = new LoginValidation();
     private String login;
-    long count = 0;
+    private long count = 0;
 
     public void createUser(){
         boolean isLoginUnique = false;
@@ -24,15 +28,17 @@ public class Register extends Encryption{
                     .filter(user -> user.login().equals(login))
                     .count();
             if (count != 0) {
-                System.out.println("User already exists!");
-            } else {
+                System.err.println("User already exists!");
+            }else if(!loginValidation.isValid(login)){
+                System.err.println("The login does not meet requirements.");
+            }else {
                 do {
                     isLoginUnique = true;
                     System.out.println("Enter password:");
                     String password = scanner.scannerText();
                     System.out.println("Repeat password:");
                     String repeatPassword = scanner.scannerText();
-                    if (encrypt(password).equals(encrypt(repeatPassword)) && Validation.isValidPassword(password)) {
+                    if (encrypt(password).equals(encrypt(repeatPassword)) && passwordValidation.isValid(password)) {
                         System.out.println("Password correct.");
                         Wallet wallet1 = createWallet();
                         System.out.println("User created");
@@ -93,7 +99,7 @@ public class Register extends Encryption{
                     if (thisUser.encryptedPassword().equals(encrypt(oldPassword))) {
                         System.out.println("Enter new password:");
                         String newPassword = scanner.scannerText();
-                        if (Validation.isValidPassword(newPassword)) {
+                        if (passwordValidation.isValid(newPassword)) {
                             thisUser.setEncryptedPassword(encrypt(newPassword));
                             isPasswordChanged = true;
                             System.out.println("Password changed");
